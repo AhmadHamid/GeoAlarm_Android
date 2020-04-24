@@ -1,5 +1,6 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -8,8 +9,6 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
-import java.text.DateFormat;
 import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
