@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addEditAlarm(View view) {
-        //Test commit text
         Intent intent = new Intent(this, AddAlarmActivity.class);
 
         startActivity(intent);
