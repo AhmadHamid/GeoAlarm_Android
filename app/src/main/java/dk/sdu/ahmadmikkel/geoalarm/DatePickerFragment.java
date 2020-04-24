@@ -27,5 +27,7 @@ public class DatePickerFragment extends DialogFragment implements TimePickerDial
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         Log.d("MUGGEL", "onTimeSet: " + hourOfDay + " - " + minute);
+
+        ((AddAlarmActivity) getActivity()).setTime(hourOfDay, minute);
     }
 }
