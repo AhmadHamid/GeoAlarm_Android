@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "450920217886",
+    "firebase_url": "https://geoalarm-d353d.firebaseio.com",
+    "project_id": "geoalarm-d353d",
+    "storage_bucket": "geoalarm-d353d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450920217886:android:2d564342269554d7e71d0f",
+        "android_client_info": {
+          "package_name": "dk.sdu.ahmadmikkel.geoalarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450920217886-jgvgu8dm1a2kmbemeh33786n40naheuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzO8EbujFrfj7QDUJiUxadWVuyVrEJpI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450920217886-jgvgu8dm1a2kmbemeh33786n40naheuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
