@@ -40,7 +40,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return data1.length;
+        return images.length;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
