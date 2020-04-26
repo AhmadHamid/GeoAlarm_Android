@@ -5,6 +5,7 @@ public class Alarm {
     private int minute;
     private String label;
     private String location;
+    private Boolean isActivate;
 
     //Test variable
     private String time;

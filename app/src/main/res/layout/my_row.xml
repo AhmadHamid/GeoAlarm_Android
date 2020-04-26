@@ -46,6 +46,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
+            <Switch
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/onOffSwitch"
+                    app:layout_constraintStart_toEndOf="@+id/myText1" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                    android:checked="false" tools:checked="false" app:layout_constraintHorizontal_bias="0.231"
+                    app:layout_constraintVertical_bias="0.511"/>
+            <Button
+                    android:layout_width="38dp"
+                    android:layout_height="35dp" android:id="@+id/settingsButton"
+                    android:background="@drawable/settings_icon"
+                    style="@style/Widget.AppCompat.Button.Borderless" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/onOffSwitch"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
