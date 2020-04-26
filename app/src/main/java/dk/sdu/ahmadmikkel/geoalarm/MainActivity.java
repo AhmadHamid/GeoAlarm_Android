@@ -1,8 +1,10 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,5 +45,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+    }
+
+    public void alarmSettings(View v) {
+        Intent intent = new Intent(this, AddAlarmActivity.class);
+        startActivity(intent);
     }
 }

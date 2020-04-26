@@ -60,7 +60,7 @@
                     android:background="@drawable/settings_icon"
                     style="@style/Widget.AppCompat.Button.Borderless" app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/onOffSwitch"/>
+                    app:layout_constraintStart_toEndOf="@+id/onOffSwitch" android:onClick="alarmSettings"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
