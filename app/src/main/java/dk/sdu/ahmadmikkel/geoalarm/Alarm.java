@@ -6,7 +6,16 @@ public class Alarm {
     private String label;
     private String location;
 
+    //Test variable
+    private String time;
+
     public Alarm() {
+    }
+
+    //Test contructor
+    public Alarm(String time, String label) {
+        this.time = time;
+        this.label = label;
     }
 
     public Alarm(int hour, int minute, String label, String location) {
