@@ -2,6 +2,7 @@ package dk.sdu.ahmadmikkel.geoalarm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
@@ -46,8 +48,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AddAlarmActivity.class);
-                intent.putExtra("time", alarmList.get(position).getTime());
-                intent.putExtra("label", alarmList.get(position).getLabel());
+                intent.putExtra("alarm", alarmList.get(position));
                 context.startActivity(intent);
             }
         });

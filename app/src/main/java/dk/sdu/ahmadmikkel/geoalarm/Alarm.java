@@ -1,13 +1,15 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
-public class Alarm {
+public class Alarm implements Parcelable {
     private int hour;
     private int minute;
     private String label;
-    private String location;
-    private Boolean isActivate;
+    private String location = "nullString";
+    private Boolean isActivate = false;
 
     //Test variable
     private String time;
@@ -17,7 +19,8 @@ public class Alarm {
 
     //Test contructor
     public Alarm(String time, String label) {
-        Log.d("ALARM_CREATED", time);
+        this.hour = 0;
+        this.minute = 0;
         this.time = time;
         this.label = label;
     }
@@ -28,6 +31,28 @@ public class Alarm {
         this.label = label;
         this.location = location;
     }
+
+    protected Alarm(Parcel in) {
+        hour = in.readInt();
+        minute = in.readInt();
+        label = in.readString();
+        location = in.readString();
+/*        byte tmpIsActivate = in.readByte();
+        isActivate = tmpIsActivate == 0 ? null : tmpIsActivate == 1;*/
+        time = in.readString();
+    }
+
+    public static final Creator<Alarm> CREATOR = new Creator<Alarm>() {
+        @Override
+        public Alarm createFromParcel(Parcel in) {
+            return new Alarm(in);
+        }
+
+        @Override
+        public Alarm[] newArray(int size) {
+            return new Alarm[size];
+        }
+    };
 
     public int getHour() {
         return hour;
@@ -71,5 +96,27 @@ public class Alarm {
 
     public String getTime() {
         return time;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(hour);
+        dest.writeInt(minute);
+        dest.writeString(label);
+        dest.writeString(location);
+
+/*        if (isActivate) {
+            dest.writeByte((byte) 1);
+        } else {
+            dest.writeByte((byte) 0);
+        }*/
+
+        dest.writeString(time);
+
     }
 }

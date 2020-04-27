@@ -1,5 +1,6 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -54,9 +55,12 @@ public class AddAlarmActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        if (getIntent().hasExtra("time") && getIntent().hasExtra("label")) {
-            time = getIntent().getStringExtra("time");
-            label = getIntent().getStringExtra("label");
+        Intent intent = getIntent();
+        if (intent.hasExtra("alarm")) {
+            Log.d("PARCELABLE_INTENT", intent.getExtras().toString());
+            Alarm alarm = (Alarm) intent.getParcelableExtra("alarm");
+            time = alarm.getTime();
+            label = alarm.getLabel();
         } else {
             Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
         }

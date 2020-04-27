@@ -1,5 +1,7 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,9 +27,9 @@ public class Alarms {
         db = FirebaseFirestore.getInstance();
 
         // Hack fordi recyclerview ikke opdateres ved nye entries.
-        alarmList.add(createAlarm("11:30", "Hack"));
+        alarmList.add(new Alarm("11:30", "Hack"));
 
-        updateAlarmList();
+        loadFromFirestore();
     }
 
     public static Alarms getInstance() {
@@ -54,19 +56,18 @@ public class Alarms {
         });
     }
 
-    public void updateAlarmList() {
+    public void loadFromFirestore() {
         // Hack fordi recyclerview ikke opdateres ved nye entries.
         /*if (alarmList.size() > 1) {
             alarmList = new ArrayList<>();
         }*/
 
-        db.collection("test").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("alarmTest").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        //alarmList.add(new Alarm((String) document.get("time"), (String) document.get("label")));
-                        alarmList.add(new Alarm((String) document.get("time"), (String) document.get("label")));
+                        alarmList.add(document.toObject(Alarm.class));
                     }
                 } else {
                     Log.w("Alarms_Firestore", "Error getting documents from Firestore", task.getException());
