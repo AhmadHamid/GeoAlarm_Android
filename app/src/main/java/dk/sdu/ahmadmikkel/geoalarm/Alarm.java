@@ -1,5 +1,7 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.util.Log;
+
 public class Alarm {
     private int hour;
     private int minute;
@@ -15,6 +17,7 @@ public class Alarm {
 
     //Test contructor
     public Alarm(String time, String label) {
+        Log.d("ALARM_CREATED", time);
         this.time = time;
         this.label = label;
     }
@@ -56,5 +59,17 @@ public class Alarm {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Boolean getActivate() {
+        return isActivate;
+    }
+
+    public void setActivate(Boolean activate) {
+        isActivate = activate;
+    }
+
+    public String getTime() {
+        return time;
     }
 }
