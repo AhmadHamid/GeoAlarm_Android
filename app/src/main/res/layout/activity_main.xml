@@ -13,7 +13,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true" tools:srcCompat="@android:drawable/ic_menu_add"
+            android:clickable="true" tools:srcCompat="@drawable/baseline_add_white_24"
             android:id="@+id/floatingActionButton"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="32dp" app:layout_constraintStart_toStartOf="parent"
