@@ -37,7 +37,10 @@ public class Alarms {
         return instance;
     }
 
-    public void createAlarm(Map<String, String> alarm) {
+    public void createAlarm(Map<String, String> alarmMap) {
+
+        Alarm alarm = new Alarm("11:00", "Test");
+
         db.collection("alarmTest").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
@@ -49,10 +52,6 @@ public class Alarms {
                 Log.w("ALARM_ADDED_ERROR", "Error adding document", e);
             }
         });
-    }
-
-    private Alarm createAlarm(String time, String label) {
-        return new Alarm(time, label);
     }
 
     public void updateAlarmList() {
@@ -67,7 +66,7 @@ public class Alarms {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //alarmList.add(new Alarm((String) document.get("time"), (String) document.get("label")));
-                        alarmList.add(createAlarm((String) document.get("time"), (String) document.get("label")));
+                        alarmList.add(new Alarm((String) document.get("time"), (String) document.get("label")));
                     }
                 } else {
                     Log.w("Alarms_Firestore", "Error getting documents from Firestore", task.getException());
