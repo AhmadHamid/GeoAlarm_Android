@@ -1,12 +1,14 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -32,12 +34,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         /*holder.myText1.setText(data1[position]);
         holder.myText2.setText(data2[position]);*/
         holder.myText1.setText(alarmList.get(position).getTime());
         holder.myText2.setText(alarmList.get(position).getLabel());
         holder.myImage.setImageResource(images[position]);
+
+        holder.myRowLayout.findViewById(R.id.settingsButton).setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AddAlarmActivity.class);
+                intent.putExtra("time", alarmList.get(position).getTime());
+                intent.putExtra("label", alarmList.get(position).getLabel());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -49,12 +62,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         TextView myText1, myText2;
         ImageView myImage;
+        ConstraintLayout myRowLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             myText1 = itemView.findViewById(R.id.myText1);
             myText2 = itemView.findViewById(R.id.myText2);
             myImage = itemView.findViewById(R.id.myImageView);
+            myRowLayout = itemView.findViewById(R.id.myRowLayout);
         }
     }
 }
