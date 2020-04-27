@@ -3,6 +3,7 @@ package dk.sdu.ahmadmikkel.geoalarm;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -20,9 +21,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddAlarmActivity extends AppCompatActivity {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Alarms alarms = Alarms.getInstance();
 
-    TextView timeText, labelText;
+    TextView timeText;
+    EditText labelText;
     String time, label;
 
     @Override
@@ -32,7 +34,7 @@ public class AddAlarmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_alarm);
 
         timeText = findViewById(R.id.addEditTime);
-        labelText = findViewById(R.id.addEditLabelLabel);
+        labelText = findViewById(R.id.addEditLabelValue);
 
         getData();
         setData();
@@ -51,7 +53,10 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     public void addAlarm(View view) {
         //TODO: Lav alarm via. Alarms.createAlarm.
-        Snackbar.make(view, "Snackbar", Snackbar.LENGTH_LONG).setAction("Alarm set", null).show();
+        alarms.createAlarm(new HashMap<String, String>());
+
+        Toast.makeText(this, "Toast", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void getData() {
