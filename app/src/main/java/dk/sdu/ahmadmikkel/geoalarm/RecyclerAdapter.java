@@ -9,17 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
-    String[] data1;
-    String[] data2;
+    ArrayList<Alarm> alarmList;
     int[] images;
     Context context;
 
-    public RecyclerAdapter(Context ct, String[] s1, String[] s2, int[] img) {
+    public RecyclerAdapter(Context ct, ArrayList<Alarm> alarmList, int[] img) {
         context = ct;
-        data1 = s1;
-        data2 = s2;
+        this.alarmList = alarmList;
         images = img;
     }
 
@@ -33,14 +33,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.myText1.setText(data1[position]);
-        holder.myText2.setText(data2[position]);
+        /*holder.myText1.setText(data1[position]);
+        holder.myText2.setText(data2[position]);*/
+        holder.myText1.setText(alarmList.get(position).getTime());
+        holder.myText2.setText(alarmList.get(position).getLabel());
         holder.myImage.setImageResource(images[position]);
     }
 
     @Override
     public int getItemCount() {
-        return images.length;
+        return alarmList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
 
-    String[] s1;
-    String[] s2;
     int[] images = {R.drawable.c_language,
             R.drawable.golang_language,
             R.drawable.php_language,
@@ -37,19 +35,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        s1 = getResources().getStringArray(R.array.test_array);
-        s2 = getResources().getStringArray(R.array.test_array2);
-
         recyclerView = findViewById(R.id.recyclerView);
 
-        adapter = new RecyclerAdapter(this, s1, s2, images);
+        adapter = new RecyclerAdapter(this, alarms.getAlarmList(), images);
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
     public void alarmSettings(View v) {
+        // Hack for at recyclerview opdateres. Skal gøres anderledes.
         adapter.notifyDataSetChanged();
+
         Intent intent = new Intent(this, AddAlarmActivity.class);
         startActivity(intent);
     }
