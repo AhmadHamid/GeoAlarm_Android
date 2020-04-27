@@ -9,9 +9,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".AddAlarmActivity"
-        android:parentActivityName=".MainActivity"
-        android:label="Alarm details"/>
+        <activity
+                android:name=".AddAlarmActivity"
+                android:label="Alarm details"
+                android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
