@@ -57,8 +57,7 @@ public class AddAlarmActivity extends AppCompatActivity {
     private void getData() {
         Intent intent = getIntent();
         if (intent.hasExtra("alarm")) {
-            Log.d("PARCELABLE_INTENT", intent.getExtras().toString());
-            Alarm alarm = (Alarm) intent.getParcelableExtra("alarm");
+            Alarm alarm = intent.getParcelableExtra("alarm");
             time = alarm.getTime();
             label = alarm.getLabel();
         } else {

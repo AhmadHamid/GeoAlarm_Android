@@ -1,15 +1,17 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import androidx.annotation.RequiresApi;
 
 public class Alarm implements Parcelable {
     private int hour;
     private int minute;
     private String label;
     private String location = "nullString";
-    private Boolean isActivate = false;
+    private Boolean isActivate;
 
     //Test variable
     private String time;
@@ -23,6 +25,7 @@ public class Alarm implements Parcelable {
         this.minute = 0;
         this.time = time;
         this.label = label;
+        this.isActivate = false;
     }
 
     public Alarm(int hour, int minute, String label, String location) {
@@ -30,8 +33,10 @@ public class Alarm implements Parcelable {
         this.minute = minute;
         this.label = label;
         this.location = location;
+        this.isActivate = false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected Alarm(Parcel in) {
         hour = in.readInt();
         minute = in.readInt();
@@ -39,10 +44,12 @@ public class Alarm implements Parcelable {
         location = in.readString();
 /*        byte tmpIsActivate = in.readByte();
         isActivate = tmpIsActivate == 0 ? null : tmpIsActivate == 1;*/
+        isActivate = in.readBoolean();
         time = in.readString();
     }
 
     public static final Creator<Alarm> CREATOR = new Creator<Alarm>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public Alarm createFromParcel(Parcel in) {
             return new Alarm(in);
@@ -103,6 +110,7 @@ public class Alarm implements Parcelable {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(hour);
@@ -115,6 +123,8 @@ public class Alarm implements Parcelable {
         } else {
             dest.writeByte((byte) 0);
         }*/
+
+        dest.writeBoolean(isActivate);
 
         dest.writeString(time);
 
