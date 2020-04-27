@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Alarms alarms = Alarms.getInstance();
 
     RecyclerView recyclerView;
+    RecyclerAdapter adapter;
 
     String[] s1;
     String[] s2;
@@ -41,13 +42,14 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        RecyclerAdapter adapter = new RecyclerAdapter(this, s1, s2, images);
+        adapter = new RecyclerAdapter(this, s1, s2, images);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
     public void alarmSettings(View v) {
+        adapter.notifyDataSetChanged();
         Intent intent = new Intent(this, AddAlarmActivity.class);
         startActivity(intent);
     }
