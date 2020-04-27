@@ -57,9 +57,9 @@ public class Alarms {
 
     public void updateAlarmList() {
         // Hack fordi recyclerview ikke opdateres ved nye entries.
-        if (alarmList.size() > 1) {
+        /*if (alarmList.size() > 1) {
             alarmList = new ArrayList<>();
-        }
+        }*/
 
         db.collection("test").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
