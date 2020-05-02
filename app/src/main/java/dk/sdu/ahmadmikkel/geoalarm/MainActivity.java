@@ -1,5 +1,7 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +18,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Observable;
+import java.util.Observer;
+
+public class MainActivity extends AppCompatActivity implements Observer {
     Alarms alarms = Alarms.getInstance();
 
     RecyclerView recyclerView;
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        alarms.addObserver(this);
+
         recyclerView = findViewById(R.id.recyclerView);
 
         adapter = new RecyclerAdapter(this, alarms.getAlarmList(), images);
@@ -45,10 +52,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void alarmSettings(View v) {
-        // Hack for at recyclerview opdateres. Skal gøres anderledes.
-        adapter.notifyDataSetChanged();
-
         Intent intent = new Intent(this, AddAlarmActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Log.d("OBSERVABLE_CALL", "Observer er kaldt");
+        if (o.getClass() == Alarms.class) {
+            Log.d("OBSERVABLE_CALL", "Alarms kalder");
+            adapter.notifyDataSetChanged();
+        }
     }
 }

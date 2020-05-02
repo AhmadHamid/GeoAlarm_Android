@@ -1,7 +1,5 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,8 +13,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Observable;
 
-public class Alarms {
+public class Alarms extends Observable {
     private static Alarms instance = null;
 
     private FirebaseFirestore db;
@@ -39,8 +38,23 @@ public class Alarms {
         return instance;
     }
 
+    private Alarm addAlarmToAlarmList(String time, String label) {
+        Alarm alarm = new Alarm(time, label);
+        alarmList.add(alarm);
+        setChanged();
+        notifyObservers();
+
+        return alarm;
+    }
+
+    private void addAlarmToAlarmList(Alarm alarm) {
+        alarmList.add(alarm);
+        setChanged();
+        notifyObservers();
+    }
+
     public void createAlarm(Map<String, String> alarmMap) {
-        Alarm alarm = new Alarm("11:00", "Test");
+        Alarm alarm = addAlarmToAlarmList("11:00", "Test");
 
         db.collection("alarmTest").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -56,17 +70,12 @@ public class Alarms {
     }
 
     public void loadFromFirestore() {
-        // Hack fordi recyclerview ikke opdateres ved nye entries.
-        /*if (alarmList.size() > 1) {
-            alarmList = new ArrayList<>();
-        }*/
-
         db.collection("alarmTest").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        alarmList.add(document.toObject(Alarm.class));
+                        addAlarmToAlarmList(document.toObject(Alarm.class));
                     }
                 } else {
                     Log.w("Alarms_Firestore", "Error getting documents from Firestore", task.getException());
