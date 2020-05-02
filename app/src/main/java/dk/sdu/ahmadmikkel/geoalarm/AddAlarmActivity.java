@@ -1,24 +1,19 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.multidex.MultiDex;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class AddAlarmActivity extends AppCompatActivity {
     Alarms alarms = Alarms.getInstance();
@@ -38,6 +33,14 @@ public class AddAlarmActivity extends AppCompatActivity {
 
         getData();
         setData();
+
+
+/*        if (getIntent().hasExtra("alarm")) {
+
+        } else {
+
+        }*/
+
     }
 
     public void showTimePickerDialog(View v) {
@@ -53,7 +56,7 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     public void addAlarm(View view) {
         //TODO: Lav alarm via. Alarms.createAlarm.
-        alarms.createAlarm(new HashMap<String, String>());
+        alarms.createAlarm(time, label);
 
         Toast.makeText(this, "Toast", Toast.LENGTH_SHORT).show();
         finish();
@@ -66,6 +69,9 @@ public class AddAlarmActivity extends AppCompatActivity {
             time = alarm.getTime();
             label = alarm.getLabel();
         } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm").withLocale(Locale.getDefault()).withZone(ZoneId.systemDefault());
+            time = formatter.format(Instant.now());
+            label = "Label";
             Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
         }
     }

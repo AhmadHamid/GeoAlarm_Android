@@ -49,8 +49,6 @@ public class Alarms extends Observable {
 
     private void addAlarmToAlarmList(Alarm alarm) {
         alarmList.add(alarm);
-        setChanged();
-        notifyObservers();
     }
 
     public void createAlarm(String time, String label) {
@@ -77,6 +75,8 @@ public class Alarms extends Observable {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         addAlarmToAlarmList(document.toObject(Alarm.class));
                     }
+                    setChanged();
+                    notifyObservers();
                 } else {
                     Log.w("Alarms_Firestore", "Error getting documents from Firestore", task.getException());
                 }
