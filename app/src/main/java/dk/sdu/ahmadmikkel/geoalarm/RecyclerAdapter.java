@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -41,6 +42,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.myText2.setText(data2[position]);*/
         holder.myText1.setText(alarmList.get(position).getTime());
         holder.myText2.setText(alarmList.get(position).getLabel());
+        holder.onOffSwitch.setChecked(alarmList.get(position).getActivate());
         holder.myImage.setImageResource(images[position]);
 
         holder.myRowLayout.findViewById(R.id.settingsButton).setOnClickListener(new View.OnClickListener(){
@@ -64,12 +66,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         TextView myText1, myText2;
         ImageView myImage;
         ConstraintLayout myRowLayout;
+        Switch onOffSwitch;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             myText1 = itemView.findViewById(R.id.myText1);
             myText2 = itemView.findViewById(R.id.myText2);
             myImage = itemView.findViewById(R.id.myImageView);
+            onOffSwitch = itemView.findViewById(R.id.onOffSwitch);
             myRowLayout = itemView.findViewById(R.id.myRowLayout);
         }
     }
