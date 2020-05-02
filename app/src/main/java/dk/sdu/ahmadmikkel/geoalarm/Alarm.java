@@ -25,7 +25,7 @@ public class Alarm implements Parcelable {
         this.minute = 0;
         this.time = time;
         this.label = label;
-        this.isActivate = false;
+        this.isActivate = true;
     }
 
     public Alarm(int hour, int minute, String label, String location) {
@@ -33,7 +33,7 @@ public class Alarm implements Parcelable {
         this.minute = minute;
         this.label = label;
         this.location = location;
-        this.isActivate = false;
+        this.isActivate = true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)

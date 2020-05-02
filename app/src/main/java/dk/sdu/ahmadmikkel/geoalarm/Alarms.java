@@ -53,8 +53,8 @@ public class Alarms extends Observable {
         notifyObservers();
     }
 
-    public void createAlarm(Map<String, String> alarmMap) {
-        Alarm alarm = addAlarmToAlarmList("11:00", "Test");
+    public void createAlarm(String time, String label) {
+        Alarm alarm = addAlarmToAlarmList(time, label);
 
         db.collection("alarmTest").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
