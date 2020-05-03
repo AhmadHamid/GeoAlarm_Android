@@ -27,12 +27,21 @@ public class MainActivity extends AppCompatActivity implements Observer {
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
 
-    int[] images = {R.drawable.c_language,
+    int[] images = {
+            R.drawable.c_language,
             R.drawable.golang_language,
             R.drawable.php_language,
             R.drawable.python_language,
             R.drawable.ruby_language,
-            R.drawable.travis_language};
+            R.drawable.travis_language,
+            // Duplicate
+            R.drawable.c_language,
+            R.drawable.golang_language,
+            R.drawable.php_language,
+            R.drawable.python_language,
+            R.drawable.ruby_language,
+            R.drawable.travis_language
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +65,14 @@ public class MainActivity extends AppCompatActivity implements Observer {
         startActivity(intent);
     }
 
+    public void schedulerTest() {
+        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        //PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), require)
+    }
+
     @Override
     public void update(Observable o, Object arg) {
-        Log.d("OBSERVABLE_CALL", "Observer er kaldt");
         if (o.getClass() == Alarms.class) {
-            Log.d("OBSERVABLE_CALL", "Alarms kalder");
             adapter.notifyDataSetChanged();
         }
     }

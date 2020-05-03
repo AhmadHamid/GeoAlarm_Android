@@ -56,7 +56,7 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     public void addAlarm(View view) {
         //TODO: Lav alarm via. Alarms.createAlarm.
-        alarms.createAlarm(time, label);
+        alarms.createAlarm(timeText.getText().toString(), labelText.getText().toString());
 
         Toast.makeText(this, "Toast", Toast.LENGTH_SHORT).show();
         finish();
