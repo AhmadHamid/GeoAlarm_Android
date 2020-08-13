@@ -25,9 +25,6 @@ public class Alarms extends Observable {
         alarmList = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
 
-        // Hack fordi recyclerview ikke opdateres ved nye entries.
-        alarmList.add(new Alarm("11:30", "Hack"));
-
         loadFromFirestore();
     }
 

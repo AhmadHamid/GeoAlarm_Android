@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
@@ -26,6 +28,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         context = ct;
         this.alarmList = alarmList;
         images = img;
+
+/*        Collections.sort(alarmList, new Comparator<Alarm>() {
+            @Override
+            public int compare(Alarm o1, Alarm o2) {
+                if (o1.getTime() > o2.getTime()) {
+                    return o1;
+                }
+                return o2;
+            }
+        });*/
     }
 
     @NonNull
@@ -43,7 +55,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.myText1.setText(alarmList.get(position).getTime());
         holder.myText2.setText(alarmList.get(position).getLabel());
         holder.onOffSwitch.setChecked(alarmList.get(position).getActivate());
-        holder.myImage.setImageResource(images[position]);
+//        holder.myImage.setImageResource(images[position]);
 
         holder.myRowLayout.findViewById(R.id.settingsButton).setOnClickListener(new View.OnClickListener(){
 
