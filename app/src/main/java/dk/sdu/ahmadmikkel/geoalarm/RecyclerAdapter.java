@@ -21,13 +21,11 @@ import java.util.Comparator;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
     ArrayList<Alarm> alarmList;
-    int[] images;
     Context context;
 
-    public RecyclerAdapter(Context ct, ArrayList<Alarm> alarmList, int[] img) {
+    public RecyclerAdapter(Context ct, ArrayList<Alarm> alarmList) {
         context = ct;
         this.alarmList = alarmList;
-        images = img;
 
 /*        Collections.sort(alarmList, new Comparator<Alarm>() {
             @Override
@@ -55,7 +53,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.myText1.setText(alarmList.get(position).getTime());
         holder.myText2.setText(alarmList.get(position).getLabel());
         holder.onOffSwitch.setChecked(alarmList.get(position).getActivate());
-//        holder.myImage.setImageResource(images[position]);
 
         holder.myRowLayout.findViewById(R.id.settingsButton).setOnClickListener(new View.OnClickListener(){
 

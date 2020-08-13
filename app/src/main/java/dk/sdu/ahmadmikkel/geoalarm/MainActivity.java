@@ -27,21 +27,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
 
-    int[] images = {
-            R.drawable.c_language,
-            R.drawable.golang_language,
-            R.drawable.php_language,
-            R.drawable.python_language,
-            R.drawable.ruby_language,
-            R.drawable.travis_language,
-            // Duplicate
-            R.drawable.c_language,
-            R.drawable.golang_language,
-            R.drawable.php_language,
-            R.drawable.python_language,
-            R.drawable.ruby_language,
-            R.drawable.travis_language
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        adapter = new RecyclerAdapter(this, alarms.getAlarmList(), images);
+        adapter = new RecyclerAdapter(this, alarms.getAlarmList());
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
