@@ -58,7 +58,7 @@ public class AddAlarmActivity extends AppCompatActivity {
         //TODO: Lav alarm via. Alarms.createAlarm.
         alarms.createAlarm(timeText.getText().toString(), labelText.getText().toString());
 
-        Toast.makeText(this, "Toast", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Alarm added", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -72,7 +72,7 @@ public class AddAlarmActivity extends AppCompatActivity {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm").withLocale(Locale.getDefault()).withZone(ZoneId.systemDefault());
             time = formatter.format(Instant.now());
             label = "Label";
-            Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
         }
     }
 
