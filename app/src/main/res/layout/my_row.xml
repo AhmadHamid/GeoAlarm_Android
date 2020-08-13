@@ -41,8 +41,8 @@
                     app:layout_constraintStart_toStartOf="@+id/myText1"
                     app:layout_constraintTop_toBottomOf="@+id/myText1"/>
             <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_launcher"
+                    android:layout_width="57dp"
+                    android:layout_height="46dp" app:srcCompat="@android:drawable/ic_lock_idle_alarm"
                     android:id="@+id/myImageView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
