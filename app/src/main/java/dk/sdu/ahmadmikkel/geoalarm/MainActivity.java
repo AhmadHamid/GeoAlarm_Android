@@ -23,7 +23,6 @@ import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer {
     Alarms alarms = Alarms.getInstance();
-
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
 

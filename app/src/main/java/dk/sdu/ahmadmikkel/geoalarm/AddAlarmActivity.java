@@ -8,7 +8,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.multidex.MultiDex;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -21,6 +25,7 @@ public class AddAlarmActivity extends AppCompatActivity {
     TextView timeText;
     EditText labelText;
     String time, label;
+    MapView map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

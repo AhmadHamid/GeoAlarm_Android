@@ -59,4 +59,11 @@
             android:id="@+id/addEditLabelValue"
             app:layout_constraintTop_toBottomOf="@+id/textView8" android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+    <fragment
+            android:layout_width="338dp"
+            android:layout_height="277dp" android:name="dk.sdu.ahmadmikkel.geoalarm.MapsFragment"
+            android:id="@+id/fragment"
+            app:layout_constraintTop_toBottomOf="@+id/addEditLabelValue"
+            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton2"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
