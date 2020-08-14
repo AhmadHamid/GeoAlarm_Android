@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
@@ -23,16 +25,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public RecyclerAdapter(Context ct, ArrayList<Alarm> alarmList) {
         context = ct;
         this.alarmList = alarmList;
-
-/*        Collections.sort(alarmList, new Comparator<Alarm>() {
-            @Override
-            public int compare(Alarm o1, Alarm o2) {
-                if (o1.getTime() > o2.getTime()) {
-                    return o1;
-                }
-                return o2;
-            }
-        });*/
     }
 
     @NonNull
@@ -60,6 +52,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 context.startActivity(intent);
             }
         });
+
+        sortAlarmList();
     }
 
     @Override
@@ -82,5 +76,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             onOffSwitch = itemView.findViewById(R.id.onOffSwitch);
             myRowLayout = itemView.findViewById(R.id.myRowLayout);
         }
+    }
+
+    private void sortAlarmList() {
+        Collections.sort(alarmList, new Comparator<Alarm>() {
+            @Override
+            public int compare(Alarm o1, Alarm o2) {
+                if (o1.getHour() > o2.getHour()) {
+                    return 1;
+                } else if (o1.getHour() < o2.getHour()) {
+                    return -1;
+                } else {
+                    if (o1.getMinute() > o2.getMinute()) {
+                        return 1;
+                    }
+                }
+                return -1;
+            }
+        });
     }
 }
