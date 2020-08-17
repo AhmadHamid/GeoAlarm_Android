@@ -37,8 +37,8 @@ public class Alarms extends Observable {
         return instance;
     }
 
-    private Alarm addAlarmToAlarmList(String time, String label) {
-        Alarm alarm = new Alarm(time, label);
+    private Alarm addAlarmToAlarmList(String time, String label, Location location) {
+        Alarm alarm = new Alarm(time, label, location);
         alarmList.add(alarm);
         setChanged();
         notifyObservers();

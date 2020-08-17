@@ -90,6 +90,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                 // Placing a marker on the touched position
                 googleMap.addMarker(markerOptions);
+
+                ((AddAlarmActivity)getActivity()).setLocation(location);
             }
         });
     }
