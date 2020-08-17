@@ -25,9 +25,9 @@ public class Scheduler {
 
     public Scheduler(Context context, NotificationManager manager) {
         alarms = Alarms.getInstance();
-        //createNotificationChannel(manager);
-        //setNotification(context);
-        Log.d("MUGGEL_SCHEDULER_NOTI", "Notification created");
+        createNotificationChannel(manager);
+        setNotification(context);
+
         createAlarmManager(context);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
@@ -81,7 +81,7 @@ public class Scheduler {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    Log.d("MUGGEL_SCHEDULER_LOCAT", location.toString());
+                    Log.d("MUGGEL_SCHEDULER_LOCAT", String.valueOf(location.getLatitude()));
                 } else {
                     Log.d("MUGGEL_SCHEDULER_LOCAT", "No location");
                 }

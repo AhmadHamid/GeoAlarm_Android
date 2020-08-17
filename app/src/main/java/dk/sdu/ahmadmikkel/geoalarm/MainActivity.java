@@ -30,8 +30,7 @@ import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer {
     Alarms alarms = Alarms.getInstance();
-    SchedulerActivity scheduler;
-    //Scheduler scheduler;
+    Scheduler scheduler;
 
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
@@ -46,10 +45,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_main);
         getPermission();
 
-        Intent intent = new Intent(this, SchedulerActivity.class);
-        startActivity(intent);
-        //scheduler = SchedulerActivity.getInstance();
-        //scheduler = Scheduler.getInstance(getApplicationContext(), getSystemService(NotificationManager.class));
+        scheduler = Scheduler.getInstance(getApplicationContext(), getSystemService(NotificationManager.class));
 
         alarms.addObserver(this);
 
