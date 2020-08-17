@@ -3,27 +3,26 @@ package dk.sdu.ahmadmikkel.geoalarm;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import androidx.annotation.RequiresApi;
 
+import java.time.LocalTime;
+
 public class Alarm implements Parcelable {
+    //private LocalTime time;
     private int hour;
     private int minute;
+
     private String label;
     private String location = "nullString";
     private Boolean isActivate;
-
-    //Test variable
-    private String time;
 
     public Alarm() {
     }
 
     //Test contructor
-    public Alarm(String time, String label) {
-        this.hour = 0;
-        this.minute = 0;
-        this.time = time;
+    public Alarm(int hour, int minute, String label) {
+        this.hour = hour;
+        this.minute = minute;
         this.label = label;
         this.isActivate = true;
     }
@@ -40,12 +39,12 @@ public class Alarm implements Parcelable {
     protected Alarm(Parcel in) {
         hour = in.readInt();
         minute = in.readInt();
+
         label = in.readString();
         location = in.readString();
 /*        byte tmpIsActivate = in.readByte();
         isActivate = tmpIsActivate == 0 ? null : tmpIsActivate == 1;*/
         isActivate = in.readBoolean();
-        time = in.readString();
     }
 
     public static final Creator<Alarm> CREATOR = new Creator<Alarm>() {
@@ -101,10 +100,6 @@ public class Alarm implements Parcelable {
         isActivate = activate;
     }
 
-    public String getTime() {
-        return time;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -115,6 +110,7 @@ public class Alarm implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(hour);
         dest.writeInt(minute);
+
         dest.writeString(label);
         dest.writeString(location);
 
@@ -125,8 +121,5 @@ public class Alarm implements Parcelable {
         }*/
 
         dest.writeBoolean(isActivate);
-
-        dest.writeString(time);
-
     }
 }

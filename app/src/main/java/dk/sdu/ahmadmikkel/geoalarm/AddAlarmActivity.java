@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.multidex.MultiDex;
 
 import java.time.Instant;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -20,7 +21,8 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     TextView timeText;
     EditText labelText;
-    String time, label;
+    LocalTime time;
+    String label;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +51,16 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     }
 
-    public void setTime(int hour, int minute) {
-        TextView timeLabel = findViewById(R.id.addEditTime);
-        timeLabel.setText(hour + ":" + minute);
+    public void setTime(LocalTime time) {
+        TextView timelabel = findViewById(R.id.addEditTime);
+        this.time = time;
+        timelabel.setText(time.toString());
     }
 
     public void addAlarm(View view) {
         //TODO: Lav alarm via. Alarms.createAlarm.
-        alarms.createAlarm(timeText.getText().toString(), labelText.getText().toString());
+        alarms.createAlarm(time, label);
+        //alarms.createAlarm(timeText.getText().toString(), labelText.getText().toString());
 
         Toast.makeText(this, "Alarm added", Toast.LENGTH_SHORT).show();
         finish();
@@ -66,18 +70,17 @@ public class AddAlarmActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("alarm")) {
             Alarm alarm = intent.getParcelableExtra("alarm");
-            time = alarm.getTime();
+            time = LocalTime.of(alarm.getHour(), alarm.getMinute());
             label = alarm.getLabel();
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm").withLocale(Locale.getDefault()).withZone(ZoneId.systemDefault());
-            time = formatter.format(Instant.now());
+            time = LocalTime.now();
             label = "Label";
             //Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setData() {
-        timeText.setText(time);
+        timeText.setText(time.toString());
         labelText.setText(label);
     }
 }
