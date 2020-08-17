@@ -2,6 +2,7 @@ package dk.sdu.ahmadmikkel.geoalarm;
 
 import android.content.Intent;
 import android.location.Location;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,7 +30,7 @@ public class AddAlarmActivity extends AppCompatActivity {
     LocalTime time;
     String label;
     Location location;
-    MapView map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,11 @@ public class AddAlarmActivity extends AppCompatActivity {
         TextView timelabel = findViewById(R.id.addEditTime);
         this.time = time;
         timelabel.setText(time.toString());
+    }
+
+    public void setLocation(Location l) {
+        Log.d("muggel_location", "setLocation: " + l.toString());
+        this.location = l;
     }
 
     public void addAlarm(View view) {

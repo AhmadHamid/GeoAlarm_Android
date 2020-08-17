@@ -25,6 +25,7 @@ public class Alarm implements Parcelable {
         this.hour = hour;
         this.minute = minute;
         this.label = label;
+        this.location = location;
         this.isActivate = true;
     }
 

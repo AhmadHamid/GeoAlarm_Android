@@ -40,8 +40,8 @@ public class Alarms extends Observable {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private Alarm addAlarmToAlarmList(LocalTime time, String label) {
-        Alarm alarm = new Alarm(time.getHour(), time.getMinute(), label);
+    private Alarm addAlarmToAlarmList(LocalTime time, String label, Location location) {
+        Alarm alarm = new Alarm(time.getHour(), time.getMinute(), label, location);
         alarmList.add(alarm);
         setChanged();
         notifyObservers();
