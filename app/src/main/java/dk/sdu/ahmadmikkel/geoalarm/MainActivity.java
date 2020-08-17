@@ -1,14 +1,19 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.multidex.MultiDex;
@@ -23,6 +28,7 @@ import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer {
     Alarms alarms = Alarms.getInstance();
+    Scheduler scheduler;
 
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
@@ -34,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        scheduler = Scheduler.getInstance(getApplicationContext(), getSystemService(NotificationManager.class));
+
         alarms.addObserver(this);
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -42,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     public void alarmSettings(View v) {
