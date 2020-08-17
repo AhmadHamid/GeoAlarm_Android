@@ -40,8 +40,8 @@ public class Alarms extends Observable {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private Alarm addAlarmToAlarmList(LocalTime time, String label, Location location) {
-        Alarm alarm = new Alarm(time.getHour(), time.getMinute(), label, location);
+    private Alarm addAlarmToAlarmList(LocalTime time, String label, double longitude, double latitude) {
+        Alarm alarm = new Alarm(time.getHour(), time.getMinute(), label, longitude, latitude);
         alarmList.add(alarm);
         setChanged();
         notifyObservers();
@@ -55,7 +55,10 @@ public class Alarms extends Observable {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void createAlarm(LocalTime time, String label, Location location) {
-        Alarm alarm = addAlarmToAlarmList(time, label, location);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+
+        Alarm alarm = addAlarmToAlarmList(time, label, longitude, latitude);
 
         db.collection("alarm").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override

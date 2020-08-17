@@ -85,7 +85,9 @@ public class AddAlarmActivity extends AppCompatActivity {
             Alarm alarm = intent.getParcelableExtra("alarm");
             time = LocalTime.of(alarm.getHour(), alarm.getMinute());
             label = alarm.getLabel();
-            location = alarm.getLocation();
+            location = new Location("");
+            location.setLongitude(alarm.getLongitude());
+            location.setLatitude(alarm.getLatitude());
         } else {
             time = LocalTime.now();
             label = "Label";
