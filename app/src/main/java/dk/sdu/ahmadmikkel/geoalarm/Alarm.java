@@ -21,11 +21,12 @@ public class Alarm implements Parcelable {
     }
 
     //Test contructor
-    public Alarm(String time, String label) {
+    public Alarm(String time, String label, Location location) {
         this.hour = 0;
         this.minute = 0;
         this.time = time;
         this.label = label;
+        this.location = location;
         this.isActivate = true;
     }
 
