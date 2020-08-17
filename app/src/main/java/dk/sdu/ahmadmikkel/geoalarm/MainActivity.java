@@ -30,7 +30,8 @@ import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer {
     Alarms alarms = Alarms.getInstance();
-    Scheduler scheduler;
+    SchedulerActivity scheduler;
+    //Scheduler scheduler;
 
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
@@ -45,7 +46,10 @@ public class MainActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_main);
         getPermission();
 
-        scheduler = Scheduler.getInstance(getApplicationContext(), getSystemService(NotificationManager.class));
+        Intent intent = new Intent(this, SchedulerActivity.class);
+        startActivity(intent);
+        //scheduler = SchedulerActivity.getInstance();
+        //scheduler = Scheduler.getInstance(getApplicationContext(), getSystemService(NotificationManager.class));
 
         alarms.addObserver(this);
 
@@ -59,8 +63,9 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
     public void getPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
+        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, REQUEST_CODE);
             return;
         }
     }
