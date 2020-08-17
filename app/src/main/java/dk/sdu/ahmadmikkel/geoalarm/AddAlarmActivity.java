@@ -81,7 +81,9 @@ public class AddAlarmActivity extends AppCompatActivity {
             Alarm alarm = intent.getParcelableExtra("alarm");
             time = alarm.getTime();
             label = alarm.getLabel();
-            location = alarm.getLocation();
+            location = new Location("");
+            location.setLongitude(alarm.getLongitude());
+            location.setLatitude(alarm.getLatitude());
         } else {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm").withLocale(Locale.getDefault()).withZone(ZoneId.systemDefault());
             time = formatter.format(Instant.now());

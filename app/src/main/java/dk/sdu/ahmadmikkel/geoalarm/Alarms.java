@@ -37,8 +37,8 @@ public class Alarms extends Observable {
         return instance;
     }
 
-    private Alarm addAlarmToAlarmList(String time, String label, Location location) {
-        Alarm alarm = new Alarm(time, label, location);
+    private Alarm addAlarmToAlarmList(String time, String label, double longitude, double latitude) {
+        Alarm alarm = new Alarm(time, label, longitude, latitude);
         alarmList.add(alarm);
         setChanged();
         notifyObservers();
@@ -51,7 +51,10 @@ public class Alarms extends Observable {
     }
 
     public void createAlarm(String time, String label, Location location) {
-        Alarm alarm = addAlarmToAlarmList(time, label, location);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+
+        Alarm alarm = addAlarmToAlarmList(time, label, longitude, latitude);
 
         db.collection("alarmTest").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
