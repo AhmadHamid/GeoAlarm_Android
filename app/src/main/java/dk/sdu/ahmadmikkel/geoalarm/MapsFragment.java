@@ -25,8 +25,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import static com.google.android.gms.maps.GoogleMap.*;
+
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
     FusedLocationProviderClient fusedLocationProviderClient;
+    private double currLat;
+    private double currLon;
+    Location location;
 
 
     @Nullable
@@ -34,9 +39,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        location = new Location("");
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity().getApplicationContext());
 
-        getLocation();
+        //getLocation();
 
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
@@ -52,12 +58,43 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-            LatLng loc = new LatLng( 55.37, 10.4090);
-            googleMap.addMarker(new MarkerOptions().position(loc).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+            googleMap.setMyLocationEnabled(true);
+
+        googleMap.setOnMapClickListener(new OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Log.d("muggel_location", "onMapClick: ");
+                // Creating a marker
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                // Setting the position for the marker
+                markerOptions.position(latLng);
+
+                // Setting the title for the marker.
+                // This will be displayed on taping the marker
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+                location.setLatitude(latLng.latitude);
+                location.setLongitude(latLng.longitude);
+                Log.d("Muggel_Location_object", location.toString());
+
+                // Clears the previously touched position
+                googleMap.clear();
+
+                // Animating to the touched position
+                googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                // Placing a marker on the touched position
+                googleMap.addMarker(markerOptions);
+            }
+        });
     }
+
+
 
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -69,6 +106,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             public void onSuccess(Location location) {
                 if (location != null) {
                     Log.d("MUGGEL_MAP_lOCATION", String.valueOf(location.getLatitude()));
+                    currLat = location.getLatitude();
+                    currLon = location.getLongitude();
+
                 }
             }
         });
