@@ -1,5 +1,7 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.location.Location;
+import android.os.Build;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,8 +50,8 @@ public class Alarms extends Observable {
         alarmList.add(alarm);
     }
 
-    public void createAlarm(String time, String label) {
-        Alarm alarm = addAlarmToAlarmList(time, label);
+    public void createAlarm(String time, String label, Location location) {
+        Alarm alarm = addAlarmToAlarmList(time, label, location);
 
         db.collection("alarmTest").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override

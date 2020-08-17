@@ -1,5 +1,6 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.location.Location;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,7 +11,7 @@ public class Alarm implements Parcelable {
     private int hour;
     private int minute;
     private String label;
-    private String location = "nullString";
+    private Location location;
     private Boolean isActivate;
 
     //Test variable
@@ -28,7 +29,7 @@ public class Alarm implements Parcelable {
         this.isActivate = true;
     }
 
-    public Alarm(int hour, int minute, String label, String location) {
+    public Alarm(int hour, int minute, String label, Location location) {
         this.hour = hour;
         this.minute = minute;
         this.label = label;
@@ -41,7 +42,7 @@ public class Alarm implements Parcelable {
         hour = in.readInt();
         minute = in.readInt();
         label = in.readString();
-        location = in.readString();
+        location = in.readParcelable(Location.class.getClassLoader());
 /*        byte tmpIsActivate = in.readByte();
         isActivate = tmpIsActivate == 0 ? null : tmpIsActivate == 1;*/
         isActivate = in.readBoolean();
@@ -85,11 +86,11 @@ public class Alarm implements Parcelable {
         this.label = label;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -116,7 +117,7 @@ public class Alarm implements Parcelable {
         dest.writeInt(hour);
         dest.writeInt(minute);
         dest.writeString(label);
-        dest.writeString(location);
+        dest.writeParcelable(location, 0);
 
 /*        if (isActivate) {
             dest.writeByte((byte) 1);
