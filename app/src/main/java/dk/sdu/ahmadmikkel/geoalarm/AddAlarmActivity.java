@@ -1,6 +1,7 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
 import android.content.Intent;
+import android.location.Location;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class AddAlarmActivity extends AppCompatActivity {
     EditText labelText;
     LocalTime time;
     String label;
+    Location location;
     MapView map;
 
     @Override
@@ -64,7 +66,7 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     public void addAlarm(View view) {
         //TODO: Lav alarm via. Alarms.createAlarm.
-        alarms.createAlarm(time, label);
+        alarms.createAlarm(time, label, location);
         //alarms.createAlarm(timeText.getText().toString(), labelText.getText().toString());
 
         Toast.makeText(this, "Alarm added", Toast.LENGTH_SHORT).show();
@@ -77,6 +79,7 @@ public class AddAlarmActivity extends AppCompatActivity {
             Alarm alarm = intent.getParcelableExtra("alarm");
             time = LocalTime.of(alarm.getHour(), alarm.getMinute());
             label = alarm.getLabel();
+            location = alarm.getLocation();
         } else {
             time = LocalTime.now();
             label = "Label";
