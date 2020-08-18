@@ -117,6 +117,7 @@ public class Alarm implements Parcelable {
 
     public String getId() {
         return id;
+    }
 
     public boolean isSchedulerSet() {
         return isSchedulerSet;
@@ -124,7 +125,6 @@ public class Alarm implements Parcelable {
 
     public void setSchedulerSet(boolean schedulerSet) {
         isSchedulerSet = schedulerSet;
-
     }
 
     @Override

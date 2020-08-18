@@ -51,6 +51,8 @@ public class Alarms extends Observable {
 
     private void addAlarmToAlarmList(Alarm alarm) {
         alarmList.add(alarm);
+        setChanged();
+        notifyObservers();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -60,7 +62,7 @@ public class Alarms extends Observable {
 
         Alarm alarm = addAlarmToAlarmList(time, label, longitude, latitude, id);
 
-        db.collection("muggel").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("alarms").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d("ALARM_ADDED", "ID: " + documentReference.getId());
@@ -79,12 +81,14 @@ public class Alarms extends Observable {
     public void updateAlarm(Alarm alarm) {
         Log.d("UPDATE_ALARM", "updateAlarm: " + alarm.getLabel());
         Log.d("UPDATE_ALARM", "updateAlarm: " + alarm.getId());
-        db.collection("muggel").document(alarm.getId()).set(alarm);
+        db.collection("alarms").document(alarm.getId()).set(alarm);
+        setChanged();
+        notifyObservers();
 
     }
 
     public void loadFromFirestore() {
-        db.collection("muggel").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("alarms").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -102,7 +106,9 @@ public class Alarms extends Observable {
     }
 
     public void updateId(DocumentReference docRef) {
-        db.collection("muggel").document(docRef.getId()).update("id", docRef.getId());
+        db.collection("alarms").document(docRef.getId()).update("id", docRef.getId());
+        setChanged();
+        notifyObservers();
 
     }
 

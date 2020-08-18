@@ -84,7 +84,7 @@ public class Scheduler {
                                 //alarmManager.set(AlarmManager.RTC_WAKEUP,  calendar.getTimeInMillis(), pendingIntent);
                                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);
                                 alarm.setSchedulerSet(true);
-                                //TODO: Update Firestore
+                                alarms.updateAlarm(alarm);
                             }
                         } else {
                             if (alarm.isSchedulerSet()) {
@@ -92,7 +92,7 @@ public class Scheduler {
 
                                 alarmManager.cancel(pendingIntent);
                                 alarm.setSchedulerSet(false);
-                                //TODO: Update Firestore
+                                alarms.updateAlarm(alarm);
                             }
 
                         }
