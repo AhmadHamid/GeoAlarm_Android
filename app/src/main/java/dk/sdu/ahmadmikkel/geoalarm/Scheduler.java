@@ -9,11 +9,15 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.google.android.gms.location.*;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.time.LocalTime;
 
 public class Scheduler {
     private static Scheduler instance = null;
@@ -30,7 +34,7 @@ public class Scheduler {
         alarms = Alarms.getInstance();
         createNotificationChannel(manager);
 
-        setNotification(context);
+        //setNotification(context);
 
         createAlarmManager(context);
 
@@ -40,6 +44,7 @@ public class Scheduler {
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         locationCallback = new LocationCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null) {
@@ -51,7 +56,28 @@ public class Scheduler {
                         alarmLocation.setLatitude(alarm.getLatitude());
                         alarmLocation.setLongitude(alarm.getLongitude());
 
-                        Log.d("MUGGEL_SCHEDULER_UPDATE", alarm.getHour() + ": " + isInRadius(location, alarmLocation));
+                        LocalTime time = LocalTime.of(alarm.getHour(), alarm.getMinute());
+
+                        Intent intent = new Intent(context, NotificationReceiver.class);
+                        intent.putExtra("alarmTest", "Hej");
+                        intent.putExtra("alarmHour", alarm.getHour());
+                        intent.putExtra("alarmMinute", alarm.getMinute());
+                        intent.putExtra("alarmLabel", alarm.getLabel());
+//                        intent.putExtra("alarm", alarm);
+
+/*                        Log.d("MUGGEL_BROADCAST_SCH", "Checking extra");
+                        Log.d("MUGGEL_BROADCAST_SCH", intent.getStringExtra("alarmTest"));
+                        Log.d("MUGGEL_BROADCAST_SCH", intent.getStringExtra("alarmLabel"));*/
+
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        if (isInRadius(location, alarmLocation)) {
+                            Toast.makeText(context, "Alarm" + alarm.getHour() + " is in radius", Toast.LENGTH_LONG).show();
+
+                            alarmManager.set(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis() + (3 * 1000), pendingIntent);
+                        } else {
+                            alarmManager.cancel(pendingIntent);
+                        }
                     }
                 }
             }
@@ -70,12 +96,12 @@ public class Scheduler {
 
     private void createAlarmManager(Context context) {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, MainActivity.class);
+        /*Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_NO_CREATE);
 
         if (pendingIntent != null && alarmManager != null) {
             alarmManager.cancel(pendingIntent);
-        }
+        }*/
     }
 
     private void createNotificationChannel(NotificationManager manager) {
