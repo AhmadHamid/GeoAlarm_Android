@@ -51,6 +51,8 @@ public class Alarms extends Observable {
 
     private void addAlarmToAlarmList(Alarm alarm) {
         alarmList.add(alarm);
+        setChanged();
+        notifyObservers();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -80,6 +82,8 @@ public class Alarms extends Observable {
         Log.d("UPDATE_ALARM", "updateAlarm: " + alarm.getLabel());
         Log.d("UPDATE_ALARM", "updateAlarm: " + alarm.getId());
         db.collection("alarms").document(alarm.getId()).set(alarm);
+        setChanged();
+        notifyObservers();
 
     }
 
@@ -103,6 +107,8 @@ public class Alarms extends Observable {
 
     public void updateId(DocumentReference docRef) {
         db.collection("alarms").document(docRef.getId()).update("id", docRef.getId());
+        setChanged();
+        notifyObservers();
 
     }
 
