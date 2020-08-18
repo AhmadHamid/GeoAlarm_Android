@@ -30,6 +30,7 @@ public class AddAlarmActivity extends AppCompatActivity {
     LocalTime time;
     String label;
     Location location;
+    String id;
 
 
     @Override
@@ -72,10 +73,20 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     public void addAlarm(View view) {
         //TODO: Lav alarm via. Alarms.createAlarm.
-        alarms.createAlarm(time, labelText.getText().toString(), location);
-        //alarms.createAlarm(timeText.getText().toString(), labelText.getText().toString());
-
-        Toast.makeText(this, "Alarm added", Toast.LENGTH_SHORT).show();
+        Intent intent = getIntent();
+        if (intent.hasExtra("alarm")) {
+            Alarm alarm = intent.getParcelableExtra("alarm");
+            alarm.setHour(time.getHour());
+            alarm.setMinute(time.getMinute());
+            alarm.setLabel(labelText.getText().toString());
+            alarm.setLongitude(location.getLongitude());
+            alarm.setLatitude(location.getLatitude());
+            alarms.updateAlarm(alarm);
+        } else {
+            alarms.createAlarm(time, labelText.getText().toString(), location, id);
+            //alarms.createAlarm(timeText.getText().toString(), labelText.getText().toString());
+            Toast.makeText(this, "Alarm added", Toast.LENGTH_SHORT).show();
+        }
         finish();
     }
 
@@ -88,6 +99,7 @@ public class AddAlarmActivity extends AppCompatActivity {
             location = new Location("");
             location.setLongitude(alarm.getLongitude());
             location.setLatitude(alarm.getLatitude());
+            id = alarm.getId();
         } else {
             time = LocalTime.now();
             //Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();

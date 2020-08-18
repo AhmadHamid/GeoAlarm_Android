@@ -40,8 +40,8 @@ public class Alarms extends Observable {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private Alarm addAlarmToAlarmList(LocalTime time, String label, double longitude, double latitude) {
-        Alarm alarm = new Alarm(time.getHour(), time.getMinute(), label, longitude, latitude);
+    private Alarm addAlarmToAlarmList(LocalTime time, String label, double longitude, double latitude, String id) {
+        Alarm alarm = new Alarm(time.getHour(), time.getMinute(), label, longitude, latitude, id);
         alarmList.add(alarm);
         setChanged();
         notifyObservers();
@@ -54,16 +54,18 @@ public class Alarms extends Observable {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void createAlarm(LocalTime time, String label, Location location) {
+    public void createAlarm(LocalTime time, String label, Location location, String id) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
 
-        Alarm alarm = addAlarmToAlarmList(time, label, longitude, latitude);
+        Alarm alarm = addAlarmToAlarmList(time, label, longitude, latitude, id);
 
-        db.collection("alarm").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("muggel").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d("ALARM_ADDED", "ID: " + documentReference.getId());
+                alarm.setId(documentReference.getId());
+                updateId(documentReference);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -73,8 +75,16 @@ public class Alarms extends Observable {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void updateAlarm(Alarm alarm) {
+        Log.d("UPDATE_ALARM", "updateAlarm: " + alarm.getLabel());
+        Log.d("UPDATE_ALARM", "updateAlarm: " + alarm.getId());
+        db.collection("muggel").document(alarm.getId()).set(alarm);
+
+    }
+
     public void loadFromFirestore() {
-        db.collection("alarm").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("muggel").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -89,6 +99,11 @@ public class Alarms extends Observable {
                 }
             }
         });
+    }
+
+    public void updateId(DocumentReference docRef) {
+        db.collection("muggel").document(docRef.getId()).update("id", docRef.getId());
+
     }
 
     public ArrayList<Alarm> getAlarmList() {
