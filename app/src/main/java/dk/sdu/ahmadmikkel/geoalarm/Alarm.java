@@ -4,25 +4,26 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import androidx.annotation.RequiresApi;
 import com.google.type.LatLng;
 
+import java.time.LocalTime;
+
 public class Alarm implements Parcelable {
+    //private LocalTime time;
     private int hour;
     private int minute;
+
     private String label;
     private double longitude;
     private double latitude;
     private Boolean isActivate;
 
-    //Test variable
-    private String time;
-
     public Alarm() {
     }
 
     //Test contructor
+
     public Alarm(String time, String label, double longitude, double latitude) {
         this.hour = 0;
         this.minute = 0;
@@ -46,13 +47,13 @@ public class Alarm implements Parcelable {
     protected Alarm(Parcel in) {
         hour = in.readInt();
         minute = in.readInt();
+
         label = in.readString();
         longitude = in.readDouble();
         latitude = in.readDouble();
 /*        byte tmpIsActivate = in.readByte();
         isActivate = tmpIsActivate == 0 ? null : tmpIsActivate == 1;*/
         isActivate = in.readBoolean();
-        time = in.readString();
     }
 
     public static final Creator<Alarm> CREATOR = new Creator<Alarm>() {
@@ -116,10 +117,6 @@ public class Alarm implements Parcelable {
         isActivate = activate;
     }
 
-    public String getTime() {
-        return time;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -130,6 +127,7 @@ public class Alarm implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(hour);
         dest.writeInt(minute);
+
         dest.writeString(label);
         dest.writeDouble(longitude);
         dest.writeDouble(latitude);
@@ -141,8 +139,5 @@ public class Alarm implements Parcelable {
         }*/
 
         dest.writeBoolean(isActivate);
-
-        dest.writeString(time);
-
     }
 }

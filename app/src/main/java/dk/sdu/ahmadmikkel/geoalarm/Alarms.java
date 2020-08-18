@@ -1,9 +1,11 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+
 import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -13,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Observable;
@@ -37,6 +40,7 @@ public class Alarms extends Observable {
         return instance;
     }
 
+
     private Alarm addAlarmToAlarmList(String time, String label, double longitude, double latitude) {
         Alarm alarm = new Alarm(time, label, longitude, latitude);
         alarmList.add(alarm);
@@ -50,13 +54,14 @@ public class Alarms extends Observable {
         alarmList.add(alarm);
     }
 
+
     public void createAlarm(String time, String label, Location location) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
 
         Alarm alarm = addAlarmToAlarmList(time, label, longitude, latitude);
-
-        db.collection("alarmTest").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+  
+        db.collection("alarm").add(alarm).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d("ALARM_ADDED", "ID: " + documentReference.getId());
@@ -70,7 +75,8 @@ public class Alarms extends Observable {
     }
 
     public void loadFromFirestore() {
-        db.collection("alarmTest").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("alarm").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

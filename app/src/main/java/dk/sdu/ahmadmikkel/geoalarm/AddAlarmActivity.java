@@ -17,6 +17,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 
 import java.time.Instant;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -57,9 +58,10 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     }
 
-    public void setTime(int hour, int minute) {
-        TextView timeLabel = findViewById(R.id.addEditTime);
-        timeLabel.setText(hour + ":" + minute);
+    public void setTime(LocalTime time) {
+        TextView timelabel = findViewById(R.id.addEditTime);
+        this.time = time;
+        timelabel.setText(time.toString());
     }
 
     public void setLocation(Location l) {
@@ -79,21 +81,20 @@ public class AddAlarmActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("alarm")) {
             Alarm alarm = intent.getParcelableExtra("alarm");
-            time = alarm.getTime();
+            time = LocalTime.of(alarm.getHour(), alarm.getMinute());
             label = alarm.getLabel();
             location = new Location("");
             location.setLongitude(alarm.getLongitude());
             location.setLatitude(alarm.getLatitude());
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm").withLocale(Locale.getDefault()).withZone(ZoneId.systemDefault());
-            time = formatter.format(Instant.now());
+            time = LocalTime.now();
             label = "Label";
             //Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setData() {
-        timeText.setText(time);
+        timeText.setText(time.toString());
         labelText.setText(label);
     }
 }
