@@ -18,6 +18,7 @@ public class Alarm implements Parcelable {
     private double longitude;
     private double latitude;
     private Boolean isActivate;
+    private boolean isSchedulerSet = false;
 
     public Alarm() {
     }
@@ -42,6 +43,7 @@ public class Alarm implements Parcelable {
 /*        byte tmpIsActivate = in.readByte();
         isActivate = tmpIsActivate == 0 ? null : tmpIsActivate == 1;*/
         isActivate = in.readBoolean();
+        isSchedulerSet = in.readBoolean();
     }
 
     public static final Creator<Alarm> CREATOR = new Creator<Alarm>() {
@@ -105,6 +107,14 @@ public class Alarm implements Parcelable {
         isActivate = activate;
     }
 
+    public boolean isSchedulerSet() {
+        return isSchedulerSet;
+    }
+
+    public void setSchedulerSet(boolean schedulerSet) {
+        isSchedulerSet = schedulerSet;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -127,5 +137,6 @@ public class Alarm implements Parcelable {
         }*/
 
         dest.writeBoolean(isActivate);
+        dest.writeBoolean(isSchedulerSet);
     }
 }
