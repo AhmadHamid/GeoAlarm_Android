@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.os.Looper;
 import android.util.Log;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.*;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 public class Scheduler {
@@ -23,12 +23,39 @@ public class Scheduler {
     AlarmManager alarmManager;
     FusedLocationProviderClient fusedLocationProviderClient;
 
+    LocationRequest locationRequest;
+    LocationCallback locationCallback;
+
     public Scheduler(Context context, NotificationManager manager) {
         alarms = Alarms.getInstance();
         createNotificationChannel(manager);
+
         setNotification(context);
 
         createAlarmManager(context);
+
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    for (Alarm alarm : alarms.getAlarmList()) {
+                        Location alarmLocation = new Location("");
+                        alarmLocation.setLatitude(alarm.getLatitude());
+                        alarmLocation.setLongitude(alarm.getLongitude());
+
+                        Log.d("MUGGEL_SCHEDULER_UPDATE", alarm.getHour() + ": " + isInRadius(location, alarmLocation));
+                    }
+                }
+            }
+        };
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         getLocation(context);
@@ -53,8 +80,8 @@ public class Scheduler {
 
     private void createNotificationChannel(NotificationManager manager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "WHAT";
-            String description = "WHAT?";
+            CharSequence name = "geoAlarmChannel";
+            String description = "Channel for GeoAlarm notifications";
             int importance = NotificationManager.IMPORTANCE_HIGH;
 
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
@@ -81,18 +108,27 @@ public class Scheduler {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    Log.d("MUGGEL_SCHEDULER_LOCAT", String.valueOf(location.getLatitude()));
+                    Log.d("MUGGEL_SCHEDULER_LOCAT", String.valueOf(location.getLatitude()) + "; " + String.valueOf(location.getLongitude()));
                 } else {
                     Log.d("MUGGEL_SCHEDULER_LOCAT", "No location");
                 }
             }
         });
+
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+    }
+
+    private boolean isInRadius(Location location1, Location location2) {
+        if (location1.distanceTo(location2) < 25.0) {
+            return true;
+        }
+        return false;
     }
 
     public void setNotification(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.settings_icon)

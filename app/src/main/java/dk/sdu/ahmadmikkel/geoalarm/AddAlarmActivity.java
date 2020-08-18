@@ -72,7 +72,7 @@ public class AddAlarmActivity extends AppCompatActivity {
 
     public void addAlarm(View view) {
         //TODO: Lav alarm via. Alarms.createAlarm.
-        alarms.createAlarm(time, label, location);
+        alarms.createAlarm(time, labelText.getText().toString(), location);
         //alarms.createAlarm(timeText.getText().toString(), labelText.getText().toString());
 
         Toast.makeText(this, "Alarm added", Toast.LENGTH_SHORT).show();
@@ -90,7 +90,6 @@ public class AddAlarmActivity extends AppCompatActivity {
             location.setLatitude(alarm.getLatitude());
         } else {
             time = LocalTime.now();
-            label = "Label";
             //Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
         }
     }
