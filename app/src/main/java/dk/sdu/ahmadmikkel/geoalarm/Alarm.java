@@ -18,22 +18,25 @@ public class Alarm implements Parcelable {
     private double longitude;
     private double latitude;
     private Boolean isActivate;
+    private String id;
     private boolean isSchedulerSet = false;
 
     public Alarm() {
     }
 
-    public Alarm(int hour, int minute, String label, double longitude, double latitude) {
+    public Alarm(int hour, int minute, String label, double longitude, double latitude, String id) {
         this.hour = hour;
         this.minute = minute;
         this.label = label;
         this.longitude = longitude;
         this.latitude = latitude;
         this.isActivate = true;
+        this.id = id;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     protected Alarm(Parcel in) {
+        id = in.readString();
         hour = in.readInt();
         minute = in.readInt();
 
@@ -107,12 +110,21 @@ public class Alarm implements Parcelable {
         isActivate = activate;
     }
 
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+
     public boolean isSchedulerSet() {
         return isSchedulerSet;
     }
 
     public void setSchedulerSet(boolean schedulerSet) {
         isSchedulerSet = schedulerSet;
+
     }
 
     @Override
@@ -123,6 +135,7 @@ public class Alarm implements Parcelable {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeInt(hour);
         dest.writeInt(minute);
 
