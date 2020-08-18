@@ -18,6 +18,7 @@ import com.google.android.gms.location.*;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.time.LocalTime;
+import java.util.Calendar;
 
 public class Scheduler {
     private static Scheduler instance = null;
@@ -72,11 +73,28 @@ public class Scheduler {
                         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                         if (isInRadius(location, alarmLocation)) {
-                            Toast.makeText(context, "Alarm" + alarm.getHour() + " is in radius", Toast.LENGTH_LONG).show();
+                            if (!alarm.isSchedulerSet()) {
+                                Toast.makeText(context, "Alarm" + alarm.getHour() + ":" + alarm.getMinute() + " is in radius", Toast.LENGTH_LONG).show();
 
-                            alarmManager.set(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis() + (3 * 1000), pendingIntent);
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTimeInMillis(System.currentTimeMillis());
+                                calendar.set(Calendar.HOUR_OF_DAY, alarm.getHour());
+                                calendar.set(Calendar.MINUTE, alarm.getMinute());
+
+                                //alarmManager.set(AlarmManager.RTC_WAKEUP,  calendar.getTimeInMillis(), pendingIntent);
+                                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);
+                                alarm.setSchedulerSet(true);
+                                //TODO: Update Firestore
+                            }
                         } else {
-                            alarmManager.cancel(pendingIntent);
+                            if (alarm.isSchedulerSet()) {
+                                Toast.makeText(context, "Alarm " + alarm.getHour() + ":" + alarm.getMinute() + " is NOT in radius", Toast.LENGTH_LONG).show();
+
+                                alarmManager.cancel(pendingIntent);
+                                alarm.setSchedulerSet(false);
+                                //TODO: Update Firestore
+                            }
+
                         }
                     }
                 }
