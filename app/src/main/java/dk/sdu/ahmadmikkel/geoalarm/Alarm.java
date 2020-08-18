@@ -22,18 +22,6 @@ public class Alarm implements Parcelable {
     public Alarm() {
     }
 
-    //Test contructor
-
-    public Alarm(String time, String label, double longitude, double latitude) {
-        this.hour = 0;
-        this.minute = 0;
-        this.time = time;
-        this.label = label;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.isActivate = true;
-    }
-
     public Alarm(int hour, int minute, String label, double longitude, double latitude) {
         this.hour = hour;
         this.minute = minute;
