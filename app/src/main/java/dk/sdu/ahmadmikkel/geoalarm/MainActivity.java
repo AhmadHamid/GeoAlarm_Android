@@ -1,14 +1,17 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.multidex.MultiDex;
@@ -23,9 +26,10 @@ import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer {
     Alarms alarms = Alarms.getInstance();
-
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
+
+    private static final int REQUEST_CODE = 101;
 
 
     @Override
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         MultiDex.install(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getPermission();
 
         alarms.addObserver(this);
 
@@ -43,6 +48,14 @@ public class MainActivity extends AppCompatActivity implements Observer {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+    }
+
+    public void getPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
+            return;
+        }
     }
 
     public void alarmSettings(View v) {

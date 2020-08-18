@@ -1,9 +1,11 @@
 package dk.sdu.ahmadmikkel.geoalarm;
 
+import android.location.Location;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.RequiresApi;
+import com.google.type.LatLng;
 
 import java.time.LocalTime;
 
@@ -13,25 +15,31 @@ public class Alarm implements Parcelable {
     private int minute;
 
     private String label;
-    private String location = "nullString";
+    private double longitude;
+    private double latitude;
     private Boolean isActivate;
 
     public Alarm() {
     }
 
     //Test contructor
-    public Alarm(int hour, int minute, String label) {
-        this.hour = hour;
-        this.minute = minute;
+
+    public Alarm(String time, String label, double longitude, double latitude) {
+        this.hour = 0;
+        this.minute = 0;
+        this.time = time;
         this.label = label;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.isActivate = true;
     }
 
-    public Alarm(int hour, int minute, String label, String location) {
+    public Alarm(int hour, int minute, String label, double longitude, double latitude) {
         this.hour = hour;
         this.minute = minute;
         this.label = label;
-        this.location = location;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.isActivate = true;
     }
 
@@ -41,7 +49,8 @@ public class Alarm implements Parcelable {
         minute = in.readInt();
 
         label = in.readString();
-        location = in.readString();
+        longitude = in.readDouble();
+        latitude = in.readDouble();
 /*        byte tmpIsActivate = in.readByte();
         isActivate = tmpIsActivate == 0 ? null : tmpIsActivate == 1;*/
         isActivate = in.readBoolean();
@@ -84,12 +93,20 @@ public class Alarm implements Parcelable {
         this.label = label;
     }
 
-    public String getLocation() {
-        return location;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     public Boolean getActivate() {
@@ -112,7 +129,8 @@ public class Alarm implements Parcelable {
         dest.writeInt(minute);
 
         dest.writeString(label);
-        dest.writeString(location);
+        dest.writeDouble(longitude);
+        dest.writeDouble(latitude);
 
 /*        if (isActivate) {
             dest.writeByte((byte) 1);
