@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    //test for at se om git ssh virker
+    
 
     @Override
     protected void onResume() {
