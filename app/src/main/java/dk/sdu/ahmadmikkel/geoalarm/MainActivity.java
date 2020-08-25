@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         }
     }
 
-    //etafsafasdf
+    
 
     @Override
     protected void onResume() {
