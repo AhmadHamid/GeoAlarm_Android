@@ -87,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
+        //alarms.resetList();
+        //alarms.loadFromFirestore();
+        //recyclerView.getAdapter().notifyDataSetChanged();
     }
 }

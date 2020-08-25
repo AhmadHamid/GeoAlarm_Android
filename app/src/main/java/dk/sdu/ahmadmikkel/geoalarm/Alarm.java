@@ -143,6 +143,7 @@ public class Alarm implements Parcelable {
         dest.writeDouble(longitude);
         dest.writeDouble(latitude);
 
+
 /*        if (isActivate) {
             dest.writeByte((byte) 1);
         } else {

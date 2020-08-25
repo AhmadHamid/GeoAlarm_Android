@@ -49,6 +49,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             public void onClick(View v) {
                 Intent intent = new Intent(context, AddAlarmActivity.class);
                 intent.putExtra("alarm", alarmList.get(position));
+                intent.putExtra("pos", position);
                 context.startActivity(intent);
             }
         });
